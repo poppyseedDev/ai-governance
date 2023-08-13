@@ -87,6 +87,7 @@ contract Governance {
 
     /**
      * @dev Close the voting on a specific proposal. Only callable after voting duration has expired
+     TODO: return the tokens to the voters
      * @param _proposalId ID of the proposal to close voting for
      */
     function closeVoting(uint256 _proposalId) external {

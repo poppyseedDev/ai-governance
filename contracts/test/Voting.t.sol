@@ -72,4 +72,32 @@ contract GovernanceTest is Test {
         assertEq(yesVotes, voteAmount);
         assertEq(noVotes, 0);
     }
+
+    function testCloseVoting() public {
+        // Setup
+        uint256 duration = 30;  // Let's assume a very short duration, e.g., 30 seconds, for testing purposes.
+        governance.createProposal("Test Close Voting", duration);
+
+        // // Increase the time by more than duration, to ensure the voting period has ended.
+        // // Note: The following line assumes you are using a test environment that can manipulate time, like Ganache.
+        // hevm.warp(block.timestamp + duration + 1);
+
+        // // Close the voting
+        // governance.closeVoting(0);
+        // (, , , , bool closed) = governance.proposals(0);
+        // assertTrue(closed);  // Assert that the voting is now closed
+
+        // // Try to vote now, it should fail because voting is closed
+        // uint256 voteAmount = 100;
+        // govCoinMock.mint(address(this), voteAmount);
+        // govCoinMock.approve(address(governance), voteAmount);
+
+        // // This vote should revert because the voting is closed
+        // try governance.vote(0, true, voteAmount) {
+        //     fail("Voting on a closed proposal did not revert");
+        // } catch Error(string memory reason) {
+        //     assertEq(reason, "Voting is closed for this proposal");
+        // }
+    }
+
 }
