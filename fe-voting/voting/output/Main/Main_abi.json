@@ -1,5 +1,65 @@
 [
   {
+    "type": "constructor",
+    "name": "__init__",
+    "inputs": [
+      {
+        "name": "address_gov",
+        "type": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "createProposal",
+    "inputs": [
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "duration",
+        "type": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "vote",
+    "inputs": [
+      {
+        "name": "proposalId",
+        "type": "uint256"
+      },
+      {
+        "name": "choice",
+        "type": "bool"
+      },
+      {
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "closeVoting",
+    "inputs": [
+      {
+        "name": "proposalId",
+        "type": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
     "type": "function",
     "name": "get_42",
     "inputs": [],
@@ -10,6 +70,60 @@
       }
     ],
     "stateMutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "Proposal",
+    "inputs": [
+      {
+        "name": "description",
+        "type": "string",
+        "indexed": false
+      },
+      {
+        "name": "yesVotes",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "noVotes",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "endTime",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "closed",
+        "type": "bool",
+        "indexed": false
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Voter",
+    "inputs": [
+      {
+        "name": "weight",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "voted",
+        "type": "bool",
+        "indexed": false
+      },
+      {
+        "name": "voteChoice",
+        "type": "bool",
+        "indexed": false
+      }
+    ],
+    "anonymous": false
   },
   {
     "type": "event",

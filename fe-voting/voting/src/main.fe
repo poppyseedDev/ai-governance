@@ -20,10 +20,10 @@ pub contract Main {
     _proposals: Map<u256, Proposal>
     _proposalVotes: Map<u256, Map<address, Voter>>
     _proposalCount: u256
-    _govCoin: address
+    _govCoin: ERC20
 
-    pub fn __init__(mut self, mut ctx: Context, govCoin: address) {
-        self._govCoin = govCoin
+    pub fn __init__(mut self, mut ctx: Context, address_gov: address) {
+        self._govCoin = ERC20(address_gov)
         self._proposalCount = u256(0)
     }
 
@@ -44,7 +44,7 @@ pub contract Main {
         assert not self._proposals[proposalId].closed
         assert self._proposals[proposalId].endTime > ctx.block_timestamp()
         
-        self._govCoin.transferFrom(ctx.msg_sender(), ctx.contract_address, amount)
+        self._govCoin.transfer(ctx, recipient: ctx.self_address(), value: amount)
         
         self._proposalVotes[proposalId][ctx.msg_sender()] = Voter(
             weight: amount,
