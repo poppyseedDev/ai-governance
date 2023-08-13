@@ -1,20 +1,23 @@
-# **Challenge 2: AI-Powered Governance for Decentralized Organizations**
+# Governance Voting Smart Contract
 
-## **Problem Statement:**
+This smart contract offers a decentralized mechanism for proposal submission and voting. The core principle revolves around staking the `GovCoin` token to amplify the voter's influence.
 
-Create an AI-powered governance system that enhances decision-making within decentralized organizations. Your solution should enable voting, proposal assessment, and community sentiment analysis to foster more inclusive and efficient governance.
+## Features
 
-## **Additional Guidelines:**
+- **Proposal Creation:** Anyone can submit a proposal for consideration by the community.
+  
+- **Token-based Voting:** Votes are weighted by the number of `GovCoin` tokens a user locks in. The more tokens staked, the greater the voting power.
 
-- Implement smart contracts to manage voting and proposal execution securely on the blockchain.
-- Train AI models to analyze community feedback, sentiment, and voting patterns for better governance insights.
-- Ensure transparency and security in the decision-making process, allowing stakeholders to
-have a clear view of governance actions.
+- **Simple Voting Choices:** Users can cast their votes in one of two ways: "yes" or "no".
 
-[Hints For Challenge 2](./HINTS.md)
+- **One Vote Per User:** To maintain fairness, each user can only vote once on a specific proposal.
 
+- **Time-bound Voting:** Each proposal comes with a predetermined time limit. Once this duration expires, no further votes can be cast on that proposal, and it's officially closed for consideration.
 
-TODO:
- - [ ] smart contracts that manage voting, proposal submission
- - [ ] Implement token-based voting mechanisms where stakeholders can use their tokens to vote on proposals
- - [ ] 
+## Importance of Staking
+
+By requiring users to stake `GovCoin` tokens to vote, we ensure two primary objectives:
+
+1. **Skin in the Game:** Users are likely to vote more judiciously, given they have a vested interest in the outcome.
+  
+2. **Prevention of Sybil Attacks:** The staking mechanism makes it costly for any entity to try and manipulate the vote by creating multiple accounts.
