@@ -32,3 +32,14 @@ However, I encountered some challenges. Setting up the binary release did not go
 
 For those interested in diving deeper into the Fe implementation, the code can be found at [voting.fe in the fe directory](./fe/crates/test-files/fixtures/demos/voting.fe).
 
+### UPDATE
+I got the binary to work. If you go into `./fe-voting/voting/` you will be able to build the smart contract with:
+
+```shell
+./fe_mac build .
+```
+
+or test it with:
+```shell
+./fe_mac test .
+```
