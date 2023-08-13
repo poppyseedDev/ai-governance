@@ -1,55 +1,76 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/// @title Voting Contract
-/// @author Aurora Poppyseed
-/// @notice This contract allows for simple voting on candidates.
-/// @dev This is a basic version, and does not include advanced features like secret voting or delegation.
-contract Voting {
-    
-    // Represents a single candidate
-    struct Candidate {
-        uint id;           // Candidate's ID
-        string name;       // Candidate's name
-        uint voteCount;    // Number of votes received
+contract Governance {
+
+    struct Proposal {
+        string description;
+        uint256 yesVotes;
+        uint256 noVotes;
+        uint256 endTime;
+        bool closed;
     }
 
-    // Maps the address of each voter to a boolean indicating if they've voted
-    mapping(address => bool) public voters;
-    
-    // Maps the ID of each candidate to their details
-    mapping(uint => Candidate) public candidates;
-    
-    // Stores the total number of candidates
-    uint public candidatesCount;
-
-    /// @notice An event indicating that a vote has been cast
-    /// @param _candidateId The ID of the candidate who received the vote
-    event votedEvent(uint indexed _candidateId);
-
-    /// @notice The constructor initializes the contract with two candidates
-    constructor() {
-        addCandidate("Candidate 1");
-        addCandidate("Candidate 2");
+    struct Voter {
+        uint256 weight;  // weight of the vote
+        bool voted;      // if true, that person already voted
+        bool voteChoice; // true for yes, false for no
     }
 
-    /// @dev Adds a new candidate to the contract
-    /// @param _name The name of the candidate
-    function addCandidate(string memory _name) private {
-        candidatesCount++;
-        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
+    mapping(uint256 => Proposal) public proposals;
+    mapping(uint256 => mapping(address => Voter)) public proposalVotes; // proposalID => address => Voter
+    uint256 public proposalCount = 0;
+
+    // The token used for voting
+    IERC20 public govCoin;
+
+    constructor(address _govCoin) {
+        govCoin = IERC20(_govCoin);
     }
 
-    /// @notice Casts a vote for a specific candidate
-    /// @dev Checks that the voter hasn't voted before and that the candidate ID is valid
-    /// @param _candidateId The ID of the candidate to vote for
-    function vote(uint _candidateId) public {
-        require(!voters[msg.sender], "Voter has already voted.");
-        require(_candidateId > 0 && _candidateId <= candidatesCount, "Invalid candidate.");
+    function createProposal(string memory _description, uint256 _duration) external {
+        proposals[proposalCount] = Proposal({
+            description: _description,
+            yesVotes: 0,
+            noVotes: 0,
+            endTime: block.timestamp + _duration,
+            closed: false
+        });
 
-        voters[msg.sender] = true;
-        candidates[_candidateId].voteCount++;
-
-        emit votedEvent(_candidateId);
+        proposalCount++;
     }
+
+    function vote(uint256 _proposalId, bool _choice, uint256 _amount) external {
+        require(_proposalId < proposalCount, "Invalid proposal ID");
+        require(!proposalVotes[_proposalId][msg.sender].voted, "Already voted on this proposal");
+        require(!proposals[_proposalId].closed, "Voting is closed for this proposal");
+        require(proposals[_proposalId].endTime > block.timestamp, "Proposal voting time expired");
+
+        govCoin.transferFrom(msg.sender, address(this), _amount);  // Transfer and lock tokens
+
+        proposalVotes[_proposalId][msg.sender] = Voter({
+            weight: _amount,
+            voted: true,
+            voteChoice: _choice
+        });
+
+        if (_choice) {
+            proposals[_proposalId].yesVotes += _amount;
+        } else {
+            proposals[_proposalId].noVotes += _amount;
+        }
+    }
+
+    function closeVoting(uint256 _proposalId) external {
+        require(_proposalId < proposalCount, "Invalid proposal ID");
+        require(!proposals[_proposalId].closed, "Voting is already closed for this proposal");
+        require(proposals[_proposalId].endTime <= block.timestamp, "Proposal voting time not yet expired");
+
+        proposals[_proposalId].closed = true;
+    }
+}
+
+// Simplified ERC20 interface
+interface IERC20 {
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 }
