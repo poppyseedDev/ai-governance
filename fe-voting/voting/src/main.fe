@@ -1,0 +1,80 @@
+// Import `get_42` from the utils module and rename it to `get_42_util`.
+use utils::get_42 as get_42_util
+
+struct Proposal {
+    description: String<256>
+    yesVotes: u256
+    noVotes: u256
+    endTime: u256
+    closed: bool
+}
+
+struct Voter {
+    weight: u256
+    voted: bool
+    voteChoice: bool
+}
+
+contract Main {
+    _proposals: Map<u256, Proposal>
+    _proposalVotes: Map<u256, Map<address, Voter>>
+    _proposalCount: u256
+    _govCoin: address
+
+    pub fn __init__(mut self, mut ctx: Context, govCoin: address) {
+        self._govCoin = govCoin
+        self._proposalCount = u256(0)
+    }
+
+    pub fn createProposal(mut self, mut ctx: Context, description: String<256>, duration: u256) {
+        self._proposals[self._proposalCount] = Proposal(
+            description: description,
+            yesVotes: u256(0),
+            noVotes: u256(0),
+            endTime: ctx.block_timestamp + duration,
+            closed: false
+        )
+        self._proposalCount = self._proposalCount + u256(1)
+    }
+
+    pub fn vote(mut self, mut ctx: Context, proposalId: u256, choice: bool, amount: u256) {
+        assert proposalId < self._proposalCount
+        assert not self._proposalVotes[proposalId][ctx.msg_sender].voted
+        assert not self._proposals[proposalId].closed
+        assert self._proposals[proposalId].endTime > ctx.block_timestamp
+        
+        self._govCoin.transferFrom(ctx.msg_sender, ctx.contract_address, amount)
+        
+        self._proposalVotes[proposalId][ctx.msg_sender] = Voter(
+            weight: amount,
+            voted: true,
+            voteChoice: choice
+        )
+        
+        if choice {
+            self._proposals[proposalId].yesVotes = self._proposals[proposalId].yesVotes + amount
+        }
+        else {
+            self._proposals[proposalId].noVotes = self._proposals[proposalId].noVotes + amount
+        }
+    }
+
+    pub fn closeVoting(mut self, mut ctx: Context, proposalId: u256) {
+        assert proposalId < self._proposalCount
+        assert not self._proposals[proposalId].closed
+        assert self._proposals[proposalId].endTime <= ctx.block_timestamp
+        
+        self._proposals[proposalId].closed = true
+    }
+
+    pub fn get_42(self) -> u256 {
+        return get_42_util()
+    }
+}
+
+#test
+fn test_main(mut ctx: Context) {
+    // Create a new `Main` contract via `ctx` and test that `get_42` return 42.
+    let main: Main = Main.create(ctx, 0)
+    assert main.get_42() == 42
+}
