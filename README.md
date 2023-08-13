@@ -22,9 +22,13 @@ By requiring users to stake `GovCoin` tokens to vote, we ensure two primary obje
   
 2. **Prevention of Sybil Attacks:** The staking mechanism makes it costly for any entity to try and manipulate the vote by creating multiple accounts.
 
+---
+
 ## Integration with Fe
-My plan was to create code first with Solidity and then transform my smart contract into Fe and test out the smart contract language a bit.
 
-Unfortunately I wasn't able to setup the binary release thus I tried building with the compiler.
+Initially, my strategy was to script the code in Solidity and subsequently adapt it to Fe. This approach would provide an opportunity to not only transition between the languages but also to evaluate the nuances and capabilities of Fe as a smart contract language.
 
-the implemented code is in the [voting.fe located in the fe directory](./fe/crates/test-files/fixtures/demos/voting.fe)
+However, I encountered some challenges. Setting up the binary release did not go as smoothly as anticipated. As an alternative, I resorted to directly building using the Fe compiler.
+
+For those interested in diving deeper into the Fe implementation, the code can be found at [voting.fe in the fe directory](./fe/crates/test-files/fixtures/demos/voting.fe).
+
