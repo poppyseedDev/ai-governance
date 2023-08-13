@@ -2,11 +2,11 @@
 use utils::get_42 as get_42_util
 
 struct Proposal {
-    description: String<256>
-    yesVotes: u256
-    noVotes: u256
-    endTime: u256
-    closed: bool
+    pub description: String<256>
+    pub yesVotes: u256
+    pub noVotes: u256
+    pub endTime: u256
+    pub closed: bool
 }
 
 struct Voter {
