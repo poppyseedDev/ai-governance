@@ -2,8 +2,7 @@
 
 ## **Problem Statement:**
 
-Create an AI-powered governance system that enhances decision-making within decentralized
-organizations. Your solution should enable voting, proposal assessment, and community sentiment analysis to foster more inclusive and efficient governance.
+Create an AI-powered governance system that enhances decision-making within decentralized organizations. Your solution should enable voting, proposal assessment, and community sentiment analysis to foster more inclusive and efficient governance.
 
 ## **Additional Guidelines:**
 
@@ -16,5 +15,6 @@ have a clear view of governance actions.
 
 
 TODO:
- - [ ] create a voting smart contract
- smart contracts that manage voting, proposal submission, and execution securely and transparently. Implement token-based voting mechanisms where stakeholders can use their tokens to vote on proposals, ensuring a democratic and inclusive governance process.
+ - [ ] smart contracts that manage voting, proposal submission
+ - [ ] Implement token-based voting mechanisms where stakeholders can use their tokens to vote on proposals
+ - [ ] 
