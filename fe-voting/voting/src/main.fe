@@ -10,9 +10,9 @@ struct Proposal {
 }
 
 struct Voter {
-    weight: u256
-    voted: bool
-    voteChoice: bool
+    pub weight: u256
+    pub voted: bool
+    pub voteChoice: bool
 }
 
 contract Main {
@@ -31,7 +31,7 @@ contract Main {
             description: description,
             yesVotes: u256(0),
             noVotes: u256(0),
-            endTime: ctx.block_timestamp + duration,
+            endTime: ctx.block_timestamp() + duration,
             closed: false
         )
         self._proposalCount = self._proposalCount + u256(1)
@@ -39,13 +39,13 @@ contract Main {
 
     pub fn vote(mut self, mut ctx: Context, proposalId: u256, choice: bool, amount: u256) {
         assert proposalId < self._proposalCount
-        assert not self._proposalVotes[proposalId][ctx.msg_sender].voted
+        assert not self._proposalVotes[proposalId][ctx.msg_sender()].voted
         assert not self._proposals[proposalId].closed
-        assert self._proposals[proposalId].endTime > ctx.block_timestamp
+        assert self._proposals[proposalId].endTime > ctx.block_timestamp()
         
-        self._govCoin.transferFrom(ctx.msg_sender, ctx.contract_address, amount)
+        self._govCoin.transferFrom(ctx.msg_sender(), ctx.contract_address, amount)
         
-        self._proposalVotes[proposalId][ctx.msg_sender] = Voter(
+        self._proposalVotes[proposalId][ctx.msg_sender()] = Voter(
             weight: amount,
             voted: true,
             voteChoice: choice
@@ -62,7 +62,7 @@ contract Main {
     pub fn closeVoting(mut self, mut ctx: Context, proposalId: u256) {
         assert proposalId < self._proposalCount
         assert not self._proposals[proposalId].closed
-        assert self._proposals[proposalId].endTime <= ctx.block_timestamp
+        assert self._proposals[proposalId].endTime <= ctx.block_timestamp()
         
         self._proposals[proposalId].closed = true
     }
