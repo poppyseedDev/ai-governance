@@ -28,18 +28,8 @@ By requiring users to stake `GovCoin` tokens to vote, we ensure two primary obje
 
 Initially, my strategy was to script the code in Solidity and subsequently adapt it to Fe. This approach would provide an opportunity to not only transition between the languages but also to evaluate the nuances and capabilities of Fe as a smart contract language.
 
+To successfully run Fe fo to the [Fe website](https://fe-lang.org/) and download the Fe binary for your specific repository
+
 However, I encountered some challenges. Setting up the binary release did not go as smoothly as anticipated. As an alternative, I resorted to directly building using the Fe compiler.
 
 For those interested in diving deeper into the Fe implementation, the code can be found at [voting.fe in the fe directory](./fe/crates/test-files/fixtures/demos/voting.fe).
-
-### UPDATE
-I got the binary to work. If you go into `./fe-voting/voting/` you will be able to build the smart contract with:
-
-```shell
-./fe_mac build .
-```
-
-or test it with:
-```shell
-./fe_mac test .
-```
