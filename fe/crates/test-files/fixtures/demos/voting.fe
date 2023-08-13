@@ -58,5 +58,3 @@ contract Governance:
         assert self._proposals[proposalId].endTime <= ctx.block_timestamp
         
         self._proposals[proposalId].closed = true
-
-# Assuming a similar interface for GovCoin contract in Fe, else it would need conversion as well
