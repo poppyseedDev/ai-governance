@@ -65,9 +65,11 @@ contract GovernanceTest is Test {
         govCoinMock.approve(address(governance), voteAmount);
 
         // Vote "Yes"
-        // governance.vote(0, true, voteAmount);
-        // Governance.Proposal memory proposal = governance.proposals(0);
-        // assertEq(proposal.yesVotes, voteAmount);
-        // assertEq(proposal.noVotes, 0);
+        governance.vote(0, true, voteAmount);
+        (string memory description, uint256 yesVotes, uint256 noVotes,  ,  ) = governance.proposals(0);
+        
+        assertEq(description, "Test Proposal");
+        assertEq(yesVotes, voteAmount);
+        assertEq(noVotes, 0);
     }
 }
