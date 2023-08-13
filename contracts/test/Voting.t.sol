@@ -41,15 +41,19 @@ contract GovernanceTest is Test {
         governance = new Governance(address(govCoinMock));
     }
 
+    // tests if the proposal has been created correctly
     function testCreateProposal() public {
         uint256 duration = 600; // 10 minutes for example
         governance.createProposal("Test Proposal", duration);
-        //Governance.Proposal memory proposal = governance.proposals(0);
-        // assertEq(proposal.description, "Test Proposal");
-        // assertEq(proposal.yesVotes, 0);
-        // assertEq(proposal.noVotes, 0);
-        // assertTrue(proposal.endTime > block.timestamp);
-        // assertFalse(proposal.closed);
+
+        // Accessing the individual fields of the struct
+        (string memory description, uint256 yesVotes, uint256 noVotes, uint256 endTime, bool closed) = governance.proposals(0);
+
+        assertEq(description, "Test Proposal");
+        assertEq(yesVotes, 0);
+        assertEq(noVotes, 0);
+        assertTrue(endTime > block.timestamp);
+        assertFalse(closed);
     }
 
     function testVoting() public {
