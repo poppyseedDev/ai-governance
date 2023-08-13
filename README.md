@@ -21,3 +21,10 @@ By requiring users to stake `GovCoin` tokens to vote, we ensure two primary obje
 1. **Skin in the Game:** Users are likely to vote more judiciously, given they have a vested interest in the outcome.
   
 2. **Prevention of Sybil Attacks:** The staking mechanism makes it costly for any entity to try and manipulate the vote by creating multiple accounts.
+
+## Integration with Fe
+My plan was to create code first with Solidity and then transform my smart contract into Fe and test out the smart contract language a bit.
+
+Unfortunately I wasn't able to setup the binary release thus I tried building with the compiler.
+
+the implemented code is in the [voting.fe located in the fe directory](./fe/crates/test-files/fixtures/demos/voting.fe)
