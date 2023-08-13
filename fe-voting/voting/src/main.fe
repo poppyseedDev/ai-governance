@@ -1,5 +1,6 @@
 // Import `get_42` from the utils module and rename it to `get_42_util`.
 use utils::get_42 as get_42_util
+use erc20_token::ERC20
 
 struct Proposal {
     pub description: String<256>
@@ -15,7 +16,7 @@ struct Voter {
     pub voteChoice: bool
 }
 
-contract Main {
+pub contract Main {
     _proposals: Map<u256, Proposal>
     _proposalVotes: Map<u256, Map<address, Voter>>
     _proposalCount: u256
